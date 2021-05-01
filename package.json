@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/foxardt/Clevelandbot/issues"
   },
-  "homepage": "https://github.com/foxardt/Clevelandbot#readme"
+  "homepage": "https://github.com/foxardt/Clevelandbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0"
+  }
 }
