@@ -1,3 +1,17 @@
+//Load client functions from utils folder
+exports.functionsLoader = (client) => {
+  const fs = require('fs') 
+  fs.readdir('./functions/', (err, files) => {
+    if (err) return console.error 
+    files.forEach(file => {
+      if (!file.endsWith('.js')) return 
+      require(`./functions/${file}`)(client) 
+      let funcName = file.split('.')[0]
+      console.log(`Loaded function '${funcName}'`) 
+    }) 
+  })
+}
+
 //Load events from event folder
 exports.eventLoader = (client) => {
   const fs = require('fs') 
