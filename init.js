@@ -1,7 +1,7 @@
 //Load client functions from utils folder
-exports.functionsLoader = (client) => {
+exports.functionsLoader = async (client) => {
   const fs = require("fs");
-  fs.readdir("./functions/", (err, files) => {
+  await fs.readdir("./functions/", (err, files) => {
     if (err) return console.error;
     files.forEach((file) => {
       if (!file.endsWith(".js")) return;

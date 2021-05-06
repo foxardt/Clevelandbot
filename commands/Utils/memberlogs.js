@@ -5,7 +5,7 @@ module.exports = {
   args: true,
   argsLength: 1,
   guildOnly: true,
-  usage: "<enable/disable/status>",
+  usage: "<enable/disable/modify/status>",
   execute(client, message, args) {
     const guild = message.guild;
     switch (args[0]) {
