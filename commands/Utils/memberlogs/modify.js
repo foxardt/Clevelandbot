@@ -1,24 +1,15 @@
 /*Modify where members are logged*/
 module.exports = async (client, message, guild) => {
-  const guildInfo = await client.getGuild(guild);
-  let settings = guildInfo.memberLogs;
-  if (!settings.enabled) {
-    return message.channel.send("Members logs are disabled Commander!");
+  const memberLogs = await client.getMemberLogs(guild);
+  if (!memberLogs.enabled) {
+    return message.channel.send(
+      "Members logs are currently disabled Commander!"
+    );
   }
-  const filter = (response) => {
-    return !response.author.bot && response.author.id === message.author.id;
-  };
-  message.channel.send(
-    "Where would you like me to log member infos Commander?"
-  );
-  message.channel
-    .awaitMessages(filter, { max: 1, time: 60000, errors: ["time"] })
-    .then(async (messages) => {
-      if (messages.first().content.toLowerCase() === "cancel") {
-        return messages
-          .first()
-          .channel.send("Command has been cancelled Commander!");
-      }
+  client.promptUser(
+    message,
+    `Members are currently logged in <#${memberLogs.channelId}> Commander. Where else would you like me to log them?`,
+    async (messages) => {
       let channel = messages.first().mentions.channels.first();
       if (!channel) {
         return message.channel.send(
@@ -26,12 +17,13 @@ module.exports = async (client, message, guild) => {
         );
       }
       let channelId = channel.id;
-      settings = {
+      let settings = {
         memberLogs: { enabled: true, channelId: channelId },
       };
       await client.updateGuild(guild, settings);
       message.channel.send(
         `Members logs will now happen in <#${channelId}> Commander!`
       );
-    });
+    }
+  );
 };

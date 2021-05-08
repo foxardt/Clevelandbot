@@ -1,5 +1,7 @@
 /*Executes when bots joins a server*/
 module.exports = async (client, guild) => {
+  const guildInfo = await client.getGuild(guild);
+  if (guildInfo.guildID) return;
   //Store owner id and discord tag
   ownerID = guild.ownerID;
   owner = await guild.members.fetch(ownerID);
