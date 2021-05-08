@@ -1,11 +1,10 @@
 /*Disable member logs module*/
 module.exports = async (client, message, guild) => {
-  const guildInfo = await client.getGuild(guild);
-  let settings = guildInfo.memberLogs;
-  if (!settings.enabled) {
+  const memberLogs = await client.getMemberLogs(guild);
+  if (!memberLogs.enabled) {
     return message.channel.send("Members logs are already disabled Commander!");
   }
-  settings = {
+  let settings = {
     memberLogs: { enabled: false, channelId: "" },
   };
   await client.updateGuild(guild, settings);

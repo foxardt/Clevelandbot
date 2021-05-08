@@ -1,11 +1,10 @@
 /*Check member logs module status*/
 module.exports = async (client, message, guild) => {
-  const guildInfo = await client.getGuild(guild);
-  const settings = guildInfo.memberLogs;
-  if (!settings.enabled) {
+  const memberLogs = await client.getMemberLogs(guild);
+  if (!memberLogs.enabled) {
     return message.channel.send("Members logs are disabled Commander!");
   }
   return message.channel.send(
-    `Members logs are enabled in <#${settings.channelId}> Commander!`
+    `Members logs are enabled in <#${memberLogs.channelId}> Commander!`
   );
 };
