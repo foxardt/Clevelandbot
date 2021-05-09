@@ -1,4 +1,4 @@
-/*prefix.memberlogs <enable/disable/status> | */
+/*prefix.memberlogs <enable/disable/modify/status> | Lets user enable members joining/leaving logs*/
 module.exports = {
   name: "memberlogs",
   description: "TBA",

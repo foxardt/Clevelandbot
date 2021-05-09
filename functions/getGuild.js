@@ -1,3 +1,4 @@
+/*Retrieve the infos from a specific guild from the database*/
 module.exports = (client) => {
   const { Guild } = require("../models");
   client.getGuild = async (guild) => {

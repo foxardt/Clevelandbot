@@ -1,4 +1,4 @@
-/*Modify where members are logged*/
+/*Modify where members are logged || If logs are enabled modifies channelId for logs in the DB*/
 module.exports = async (client, message, guild) => {
   const memberLogs = await client.getMemberLogs(guild);
   if (!memberLogs.enabled) {
