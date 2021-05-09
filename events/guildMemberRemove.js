@@ -1,4 +1,4 @@
-/*Executes when a user leaves or gets kicked out of a server*/
+/*Executes when a user leaves or gets kicked out of a server | If logs are enabled logs event in designated channel*/
 module.exports = async (client, member, guild) => {
   const memberLogs = await client.getMemberLogs(guild);
   if (!memberLogs.enabled) return;
