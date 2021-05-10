@@ -16,17 +16,28 @@ module.exports = async (client, message) => {
   if (cmd.guildOnly && message.channel.type === "dm")
     return message.reply("We can't do this in DMs Commander...");
 
+  if (cmd.args && !args.length) {
+    return message.channel.send(
+      `You didn't provide any arguments Commander! \nThe proper usage would be: ${prefix}${cmd.name} ${cmd.usage}`
+    );
+  }
+
+  if (cmd.args && cmd.argsLength != args.length && cmd.argsLength) {
+    return message.channel.send(
+      `I didn't understand that correctly Commander! \nThe proper usage would be: ${prefix}${cmd.name} ${cmd.usage}`
+    );
+  }
+
+  if (cmd.permissions) {
+    const authorPerms = message.channel.permissionsFor(message.author);
+    if (!authorPerms || !authorPerms.has(command.permissions)) {
+      return message.channel.send(
+        "You don't have the permission(s) to do that Commander!"
+      );
+    }
+  }
+  //Run command
   try {
-    if (cmd.args && !args.length) {
-      return message.channel.send(
-        `You didn't provide any arguments Commander! \nThe proper usage would be: ${prefix}${cmd.name} ${cmd.usage}`
-      );
-    }
-    if (cmd.args && cmd.argsLength != args.length && cmd.argsLength) {
-      return message.channel.send(
-        `I didn't understand that correctly Commander! \nThe proper usage would be: ${prefix}${cmd.name} ${cmd.usage}`
-      );
-    }
     cmd.execute(client, message, args);
   } catch (error) {
     message.channel.send(
