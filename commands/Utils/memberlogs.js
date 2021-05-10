@@ -1,10 +1,11 @@
-/*prefix.memberlogs <enable/disable/status> | */
+/*prefix.memberlogs <enable/disable/status>*/
 module.exports = {
   name: "memberlogs",
   description: "TBA",
   args: true,
   argsLength: 1,
   guildOnly: true,
+  permissions: "MANAGE_SERVER",
   usage: "<enable/disable/modify/status>",
   execute(client, message, args) {
     const guild = message.guild;
