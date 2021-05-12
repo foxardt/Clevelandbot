@@ -2,6 +2,16 @@
 const { prefix } = require("../config");
 
 module.exports = async (client, message) => {
+  const guild = message.guild;
+  let triggerList = await client.getTriggers(guild);
+  if (message.author.bot) return;
+
+  for (trigger of triggerList) {
+    if (message.content.toLowerCase() === trigger.trigger) {
+      return message.channel.send(trigger.reply);
+    }
+  }
+
   if (message.content.indexOf(prefix) !== 0 || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/g);

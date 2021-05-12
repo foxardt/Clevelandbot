@@ -6,5 +6,6 @@ module.exports = {
   mongoURI: process.env.MONGO_URI,
   defaultSettings: {
     memberLogs: { enabled: false, channelId: "" },
+    triggers: [],
   },
 };
