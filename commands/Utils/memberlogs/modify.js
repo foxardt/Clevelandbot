@@ -6,24 +6,21 @@ module.exports = async (client, message, guild) => {
       "Members logs are currently disabled Commander!"
     );
   }
-  client.promptUser(
+  let collected = await client.promptUser(
     message,
-    `Members are currently logged in <#${memberLogs.channelId}> Commander. Where else would you like me to log them?`,
-    async (messages) => {
-      let channel = messages.first().mentions.channels.first();
-      if (!channel) {
-        return message.channel.send(
-          "You didn't mention any channel Commander!"
-        );
-      }
-      let channelId = channel.id;
-      let settings = {
-        memberLogs: { enabled: true, channelId: channelId },
-      };
-      await client.updateGuild(guild, settings);
-      message.channel.send(
-        `Members logs will now happen in <#${channelId}> Commander!`
-      );
-    }
+    `Members are currently logged in <#${memberLogs.channelId}> Commander. Where else would you like me to log them?`
+  );
+
+  let channel = collected.first().mentions.channels.first();
+  if (!channel) {
+    return message.channel.send("You didn't mention any channel Commander!");
+  }
+  let channelId = channel.id;
+  let settings = {
+    memberLogs: { enabled: true, channelId: channelId },
+  };
+  await client.updateGuild(guild, settings);
+  message.channel.send(
+    `Members logs will now happen in <#${channelId}> Commander!`
   );
 };
