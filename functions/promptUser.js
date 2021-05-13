@@ -34,6 +34,12 @@ module.exports = (client) => {
       }
     );
 
+    if (replyMessage.first().content === "cancel") {
+      message.channel.send("Command has been cancelled commander!");
+      collector.stop();
+      return;
+    }
+
     collector.stop();
     return replyMessage;
   };

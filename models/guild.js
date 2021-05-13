@@ -8,6 +8,15 @@ const GuildSchema = mongoose.Schema({
   ownerUsername: String,
   memberLogs: { enabled: { type: Boolean, default: false }, channelId: String },
   triggers: [{ trigger: String, reply: String }],
+  reminders: [
+    {
+      userId: String,
+      name: String,
+      message: String,
+      date: String,
+      channelId: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Guild", GuildSchema);

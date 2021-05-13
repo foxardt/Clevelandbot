@@ -2,25 +2,32 @@
 module.exports = async (client, message, guild) => {
   let triggers = await client.getTriggers(guild);
 
-  let collected = await client.promptUser(
-    message,
-    "Please enter the trigger name Commander:"
-  );
+  let triggerIndex, triggerName;
 
-  let triggerName = collected.first().content.toLowerCase();
+  do {
+    if (triggerName)
+      message.channel.send(`"${triggerName}" already exists Commander!`);
 
-  const triggerIndex = triggers.findIndex(
-    (trigger) => trigger.trigger === triggerName
-  );
+    collected = await client.promptUser(
+      message,
+      "Please enter the trigger name Commander:"
+    );
 
-  if (triggerIndex > -1) {
-    return message.channel.send(`"${triggerName}" already exists Commander!`);
-  }
+    if (!collected) return;
+
+    triggerName = collected.first().content.toLowerCase();
+
+    triggerIndex = triggers.findIndex(
+      (trigger) => trigger.trigger === triggerName
+    );
+  } while (triggerIndex >= 0);
 
   collected = await client.promptUser(
     message,
     "Please enter the trigger reply Commander:"
   );
+
+  if (!collected) return;
 
   let triggerReply = collected.first().content.toLowerCase();
 

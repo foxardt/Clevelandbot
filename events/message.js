@@ -6,12 +6,13 @@ module.exports = async (client, message) => {
   let triggerList = await client.getTriggers(guild);
   if (message.author.bot) return;
 
-  for (trigger of triggerList) {
-    if (message.content.toLowerCase() === trigger.trigger) {
-      return message.channel.send(trigger.reply);
+  if (!global.commandInUse) {
+    for (trigger of triggerList) {
+      if (message.content.toLowerCase() === trigger.trigger) {
+        return message.channel.send(trigger.reply);
+      }
     }
   }
-
   if (message.content.indexOf(prefix) !== 0 || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -48,7 +49,9 @@ module.exports = async (client, message) => {
   }
   //Run command
   try {
-    cmd.execute(client, message, args);
+    global.commandInUse = true;
+    await cmd.execute(client, message, args);
+    global.commandInUse = false;
   } catch (error) {
     message.channel.send(
       "An error happened while trying to do that Commander..."

@@ -7,6 +7,8 @@ const client = new Client();
 client.config = require("./config");
 client.mongoose = require("./utils/mongoose");
 
+global.commandInUse = false;
+
 //Load additionnal functions from Utils
 functionsLoader(client);
 //Load events from event folder

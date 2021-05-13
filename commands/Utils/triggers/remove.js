@@ -4,28 +4,32 @@ module.exports = async (client, message, guild) => {
   list(client, message, guild);
 
   let triggers = await client.getTriggers(guild);
+  let triggerIndex, triggerName;
 
   if (triggers.length === 0)
     return message.channel.send(
       "There's currently no triggers set up in this server Commander!"
     );
 
-  let collected = await client.promptUser(
-    message,
-    "Which one do you want me to delete Commander?"
-  );
+  do {
+    if (triggerName)
+      message.channel.send(
+        `"${triggerName}" is not a valid trigger Commander!`
+      );
 
-  let triggerName = collected.first().content.toLowerCase();
-
-  const triggerIndex = triggers.findIndex(
-    (trigger) => trigger.trigger === triggerName
-  );
-
-  if (triggerIndex <= -1) {
-    return message.channel.send(
-      `"${triggerName}" is not a valid trigger Commander!`
+    collected = await client.promptUser(
+      message,
+      "Which one do you want me to delete Commander?"
     );
-  }
+
+    if (!collected) return;
+
+    triggerName = collected.first().content.toLowerCase();
+
+    triggerIndex = triggers.findIndex(
+      (trigger) => trigger.trigger === triggerName
+    );
+  } while (triggerIndex < 0);
 
   triggers.splice(triggerIndex, 1);
 
