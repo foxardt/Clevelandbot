@@ -1,11 +1,14 @@
-/**/
+/*Remove a trigger from the server*/
 module.exports = async (client, message, guild) => {
   const list = require("../triggers/list");
   list(client, message, guild);
 
   let triggers = await client.getTriggers(guild);
 
-  if (triggers.length === 0) return;
+  if (triggers.length === 0)
+    return message.channel.send(
+      "There's currently no triggers set up in this server Commander!"
+    );
 
   let collected = await client.promptUser(
     message,
