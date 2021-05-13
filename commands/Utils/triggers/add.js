@@ -1,4 +1,4 @@
-/**/
+/*Add a new trigger to the server*/
 module.exports = async (client, message, guild) => {
   let triggers = await client.getTriggers(guild);
 
