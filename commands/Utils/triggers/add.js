@@ -2,11 +2,11 @@
 module.exports = async (client, message, guild) => {
   let triggers = await client.getTriggers(guild);
 
-  let triggerIndex, triggerName;
+  let triggerIndex, newTriggerName;
 
   do {
-    if (triggerName)
-      message.channel.send(`"${triggerName}" already exists Commander!`);
+    if (newTriggerName)
+      message.channel.send(`"${newTriggerName}" already exists Commander!`);
 
     collected = await client.promptUser(
       message,
@@ -15,7 +15,7 @@ module.exports = async (client, message, guild) => {
 
     if (!collected) return;
 
-    triggerName = collected.first().content.toLowerCase();
+    newTriggerName = collected.first().content.toLowerCase();
 
     triggerIndex = triggers.findIndex(
       (trigger) => trigger.trigger === triggerName
@@ -29,15 +29,16 @@ module.exports = async (client, message, guild) => {
 
   if (!collected) return;
 
-  let triggerReply = collected.first().content.toLowerCase();
+  let newTriggerReply = collected.first().content.toLowerCase();
 
-  const newTrigger = { trigger: triggerName, reply: triggerReply };
+  const newTriggers = [
+    ...triggers,
+    { trigger: newTriggerName, reply: newTriggerReply },
+  ];
 
-  triggers.push(newTrigger);
-
-  await client.updateGuild(guild, { triggers: triggers });
+  await client.updateGuild(guild, { triggers: newTriggers });
 
   message.channel.send(
-    `Trigger "${newTrigger.trigger}" successfully added Commander!`
+    `Trigger "${newTriggerName}" successfully added Commander!`
   );
 };

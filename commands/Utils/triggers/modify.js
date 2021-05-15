@@ -28,9 +28,7 @@ module.exports = async (client, message, guild) => {
 
     triggerName = collected.first().content.toLowerCase();
 
-    triggerIndex = triggers.findIndex(
-      (trigger) => trigger.trigger === triggerName
-    );
+    triggerIndex = triggers.findIndex(({ trigger }) => trigger === triggerName);
   } while (triggerIndex < 0);
 
   collected = await client.promptUser(
@@ -40,9 +38,9 @@ module.exports = async (client, message, guild) => {
 
   if (!collected) return;
 
-  let triggerReply = collected.first().content.toLowerCase();
+  let newTriggerReply = collected.first().content.toLowerCase();
 
-  triggers[triggerIndex].reply = triggerReply;
+  triggers[triggerIndex].reply = newTriggerReply;
 
   await client.updateGuild(guild, { triggers: triggers });
 
