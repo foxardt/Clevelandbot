@@ -4,7 +4,7 @@ module.exports = (client) => {
     require("./getGuild")(client);
     const guildInfo = await client.getGuild(guild);
     const reminders = guildInfo.reminders.filter(
-      (reminder) => reminder.userId === user.id
+      ({ userId }) => userId === user.id
     );
     return reminders;
   };

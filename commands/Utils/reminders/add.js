@@ -10,7 +10,7 @@ module.exports = async (client, message, guild) => {
 
   if (!collected) return;
 
-  let reminderMessage = collected.first().content.toLowerCase();
+  let newReminderMessage = collected.first().content.toLowerCase();
 
   collected = await client.promptUser(
     message,
@@ -19,14 +19,25 @@ module.exports = async (client, message, guild) => {
 
   if (!collected) return;
 
-  let reminderDate = collected.first().content.toLowerCase();
+  let newReminderDate = collected.first().content.toLowerCase();
 
-  let reminderIndex, reminderName;
+  do {
+    collected = await client.promptUser(
+      message,
+      "When would you like me to remind you about that Commander? (DD/MM/YYYY HH:MM)"
+    );
 
-  while (reminderIndex > -1 || !reminderIndex) {
-    if (reminderName)
+    if (!collected) return;
+
+    newReminderDate = collected.first().content.toLowerCase();
+  } while (!newReminderDate);
+
+  let reminderIndex, newReminderName;
+
+  do {
+    if (newReminderName)
       message.channel.send(
-        `You already have a reminder named "${reminderName}" Commander!`
+        `You already have a reminder named "${newReminderName}" Commander!`
       );
 
     collected = await client.promptUser(
@@ -36,26 +47,26 @@ module.exports = async (client, message, guild) => {
 
     if (!collected) return;
 
-    reminderName = collected.first().content.toLowerCase();
+    newReminderName = collected.first().content.toLowerCase();
 
     reminderIndex = userReminders.findIndex(
-      (reminder) => reminder.name === reminderName
+      ({ name }) => name === newReminderName
     );
-  }
+  } while (reminderIndex > -1 || !reminderIndex);
 
   let newReminder = {
     userId: message.author.id,
-    name: reminderName,
-    message: reminderMessage,
-    date: reminderDate,
+    name: newReminderName,
+    message: newReminderMessage,
+    date: newReminderDate,
     channelId: message.channel.id,
   };
 
-  reminders.push(newReminder);
+  newReminders = [...reminders, newReminder];
 
-  await client.updateGuild(guild, { reminders: reminders });
+  await client.updateGuild(guild, { reminders: newReminders });
 
   message.channel.send(
-    `Reminder "${reminderName}" successfully added Commander!`
+    `Reminder "${newReminderName}" successfully added Commander!`
   );
 };
