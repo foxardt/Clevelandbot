@@ -1,7 +1,7 @@
 //Imports
 const mongoose = require("mongoose");
 const { mongoURI } = require("../config");
-const { format } = require("date-fns");
+const moment = require("moment");
 
 module.exports = {
   init: () => {
@@ -19,17 +19,17 @@ module.exports = {
     mongoose.Promise = global.Promise;
 
     mongoose.connection.on("connected", () => {
-      let date = format(Date.now(), "dd/MM/yyyy HH:mm:ss");
+      let date = moment().format("DD/MM/yyyy HH:mm:ss");
       console.log(`${date}: Mongoose connection successfully opened!`);
     });
 
     mongoose.connection.on("err", (err) => {
-      let date = format(Date.now(), "dd/MM/yyyy HH:mm:ss");
+      let date = moment().format("DD/MM/yyyy HH:mm:ss");
       console.error(`${date}: Mongoose connection error: \n ${err.stack}`);
     });
 
     mongoose.connection.on("disconnected", () => {
-      let date = format(Date.now(), "dd/MM/yyyy HH:mm:ss");
+      let date = moment().format("DD/MM/yyyy HH:mm:ss");
       console.log(`${date}: Mongoose connection disconnected`);
     });
   },

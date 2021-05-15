@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/foxardt/Clevelandbot#readme",
   "dependencies": {
-    "date-fns": "^2.21.1",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
+    "moment": "^2.29.1",
     "mongoose": "^5.12.7"
   }
 }

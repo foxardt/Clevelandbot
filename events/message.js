@@ -56,12 +56,12 @@ module.exports = async (client, message) => {
     message.channel.send(
       "An error happened while trying to do that Commander..."
     );
-    let date = client.getDate();
+    let currentDate = client.getCurrentDate();
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     args.shift();
     let argsString = args.join(" ");
     console.log(
-      `${date}: An error happened with the command '${command}' using arguments '${argsString}'`
+      `${currentDate}: An error happened with the command '${command}' using arguments '${argsString}'`
     );
     console.error(error);
   }

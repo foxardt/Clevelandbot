@@ -1,5 +1,6 @@
 /*Add a new reminder to the server*/
 module.exports = async (client, message, guild) => {
+  const moment = require("moment");
   let reminders = await client.getReminders(guild);
   let userReminders = await client.getUserReminders(guild, message.author);
 
@@ -12,16 +13,12 @@ module.exports = async (client, message, guild) => {
 
   let newReminderMessage = collected.first().content.toLowerCase();
 
-  collected = await client.promptUser(
-    message,
-    "When would you like me to remind you about that Commander?"
-  );
-
-  if (!collected) return;
-
-  let newReminderDate = collected.first().content.toLowerCase();
+  let isValidDate, newReminderDate;
 
   do {
+    if (newReminderDate)
+      message.channel.send("Invalid date entered Commander!");
+
     collected = await client.promptUser(
       message,
       "When would you like me to remind you about that Commander? (DD/MM/YYYY HH:MM)"
@@ -30,7 +27,9 @@ module.exports = async (client, message, guild) => {
     if (!collected) return;
 
     newReminderDate = collected.first().content.toLowerCase();
-  } while (!newReminderDate);
+
+    isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
+  } while (!isValidDate);
 
   let reminderIndex, newReminderName;
 
@@ -54,7 +53,15 @@ module.exports = async (client, message, guild) => {
     );
   } while (reminderIndex > -1 || !reminderIndex);
 
+  let reminderId = Math.floor(Math.random() * 999999) + 1;
+  for (reminder of reminders) {
+    if (reminderId === reminder.id) {
+      reminderId = Math.floor(Math.random() * 999999) + 1;
+    }
+  }
+
   let newReminder = {
+    id: reminderId,
     userId: message.author.id,
     name: newReminderName,
     message: newReminderMessage,

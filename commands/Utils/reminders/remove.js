@@ -21,8 +21,7 @@ module.exports = async (client, message, guild) => {
   let reminderName = collected.first().content.toLowerCase();
 
   const reminderIndex = reminders.findIndex(
-    (reminder) =>
-      reminder.name === reminderName && reminder.userId === message.author.id
+    ({ name, userId }) => name === reminderName && userId === message.author.id
   );
 
   if (reminderIndex <= -1) {
