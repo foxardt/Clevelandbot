@@ -9,8 +9,13 @@ module.exports = async (client, message, guild) => {
   message.channel.send(
     "Here the list of triggers set up in this server Commander! :"
   );
+<<<<<<< HEAD
   triggers.forEach((trigger) => {
     triggerList += `-${trigger.trigger} \n`;
+=======
+  triggers.forEach(({ trigger }) => {
+    triggerList += `-${trigger} \n`;
+>>>>>>> testing
   });
   message.channel.send(triggerList);
 };

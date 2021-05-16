@@ -7,5 +7,9 @@ module.exports = {
   defaultSettings: {
     memberLogs: { enabled: false, channelId: "" },
     triggers: [],
+<<<<<<< HEAD
+=======
+    reminders: [],
+>>>>>>> testing
   },
 };
