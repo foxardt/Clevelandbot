@@ -1,4 +1,4 @@
-/*Returns current date to format dd/MM/yyyy HH:mm:ss*/
+/*Returns current date to format DD/MM/yyyy HH:mm:ss*/
 module.exports = (client) => {
   client.getCurrentDate = () => {
     const moment = require("moment");

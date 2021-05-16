@@ -1,6 +1,6 @@
 /*Remove a reminder from the server*/
 module.exports = async (client, message, guild) => {
-  const list = require("../reminders/list");
+  const list = require("./list");
   list(client, message, guild);
 
   let reminders = await client.getReminders(guild);

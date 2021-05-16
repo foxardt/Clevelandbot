@@ -9,8 +9,8 @@ module.exports = async (client, message, guild) => {
   message.channel.send(
     "Here the list of your reminders set up in this server Commander! :"
   );
-  reminders.forEach(({ name }) => {
-    remindersList += `-${name} \n`;
+  reminders.forEach(({ name, date }) => {
+    remindersList += `-${name} (${date})\n`;
   });
   message.channel.send(remindersList);
 };

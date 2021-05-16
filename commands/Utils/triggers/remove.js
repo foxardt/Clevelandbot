@@ -1,6 +1,6 @@
 /*Remove a trigger from the server*/
 module.exports = async (client, message, guild) => {
-  const list = require("../triggers/list");
+  const list = require("./list");
   list(client, message, guild);
 
   let triggers = await client.getTriggers(guild);
