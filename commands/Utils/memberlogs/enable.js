@@ -1,17 +1,11 @@
 /*Enable member logs module | Enabled module and assign channelId for logs in the DB*/
 module.exports = async (client, message, guild) => {
-<<<<<<< HEAD
-  const memberLogs = await client.getMemberLogs(guild);
-  if (memberLogs.enabled) {
-    return message.channel.send("Members logs are already enabled Commander!");
-=======
   const { prefix } = require("../../../config");
   const { enabled } = await client.getMemberLogs(guild);
   if (enabled) {
     return message.channel.send(
       `Members logs are already enabled Commander! If you want to modify them use **${prefix}memberlogs modify** !`
     );
->>>>>>> testing
   }
 
   let collected = await client.promptUser(
@@ -19,19 +13,11 @@ module.exports = async (client, message, guild) => {
     "Where would you like me to log member infos Commander?"
   );
 
-<<<<<<< HEAD
-  let channel = collected.first().mentions.channels.first();
-  if (!channel) {
-    return message.channel.send("You didn't mention any channel Commander!");
-  }
-  let channelId = channel.id;
-=======
   let { id: channelId } = collected.first().mentions.channels.first();
   if (!channelId) {
     return message.channel.send("You didn't mention any channel Commander!");
   }
 
->>>>>>> testing
   let settings = {
     memberLogs: { enabled: true, channelId: channelId },
   };

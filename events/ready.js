@@ -1,8 +1,4 @@
 /*Executes when bot is logged in and ready*/
-<<<<<<< HEAD
-module.exports = (client) => {
-  let date = client.getDate();
-=======
 module.exports = async (client) => {
   const { prefix } = require("../config");
   client.user.setActivity(`${prefix}.help`);
@@ -17,6 +13,5 @@ module.exports = async (client) => {
   }, 1000 * 60);
 
   let date = client.getCurrentDate();
->>>>>>> testing
   console.log(`${date}: Logged in as ${client.user.tag}!`);
 };

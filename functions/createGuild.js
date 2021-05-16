@@ -12,11 +12,7 @@ module.exports = (client) => {
 
     const newGuild = await new Guild(merged);
     return newGuild.save().then(() => {
-<<<<<<< HEAD
-      let date = client.getDate();
-=======
       let date = client.getCurrentDate();
->>>>>>> testing
       console.log(
         `${date}: Default settings saved for guild "${merged.guildName}" (${merged.guildID})`
       );

@@ -6,14 +6,6 @@ module.exports = async (client, message) => {
   let triggerList = await client.getTriggers(guild);
   if (message.author.bot) return;
 
-<<<<<<< HEAD
-  for (trigger of triggerList) {
-    if (message.content.toLowerCase() === trigger.trigger) {
-      return message.channel.send(trigger.reply);
-    }
-  }
-
-=======
   if (!global.commandInUse) {
     for (trigger of triggerList) {
       if (message.content.toLowerCase() === trigger.trigger) {
@@ -21,7 +13,6 @@ module.exports = async (client, message) => {
       }
     }
   }
->>>>>>> testing
   if (message.content.indexOf(prefix) !== 0 || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -58,31 +49,19 @@ module.exports = async (client, message) => {
   }
   //Run command
   try {
-<<<<<<< HEAD
-    cmd.execute(client, message, args);
-=======
     global.commandInUse = true;
     await cmd.execute(client, message, args);
     global.commandInUse = false;
->>>>>>> testing
   } catch (error) {
     message.channel.send(
       "An error happened while trying to do that Commander..."
     );
-<<<<<<< HEAD
-    let date = client.getDate();
-=======
     let currentDate = client.getCurrentDate();
->>>>>>> testing
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     args.shift();
     let argsString = args.join(" ");
     console.log(
-<<<<<<< HEAD
-      `${date}: An error happened with the command '${command}' using arguments '${argsString}'`
-=======
       `${currentDate}: An error happened with the command '${command}' using arguments '${argsString}'`
->>>>>>> testing
     );
     console.error(error);
   }
