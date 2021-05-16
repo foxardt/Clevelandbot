@@ -1,3 +1,3 @@
 module.exports = {
-  Guild: require("./Guild"),
+  Guild: require("./guild"),
 };

@@ -1,10 +1,10 @@
 /*Executes when bot is logged in and ready*/
 module.exports = async (client) => {
   const { prefix } = require("../config");
-  client.user.setActivity(`${prefix}.help`);
+  client.user.setActivity(`${prefix}help`);
   setInterval(() => {
-    if (client.user.presence.activities[0] !== `${prefix}.help`)
-      client.user.setActivity(`${prefix}.help`);
+    if (client.user.presence.activities[0] !== `${prefix}help`)
+      client.user.setActivity(`${prefix}help`);
   }, 1000 * 60);
 
   await client.checkReminders();
