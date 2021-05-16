@@ -10,19 +10,19 @@ module.exports = {
     const guild = message.guild;
     switch (args[0]) {
       case "add":
-        const add = require("./reminder/add");
+        const add = require("./reminders/add");
         add(client, message, guild);
         break;
       case "list":
-        const list = require("./reminder/list");
+        const list = require("./reminders/list");
         list(client, message, guild);
         break;
       case "modify":
-        const modify = require("./reminder/modify");
+        const modify = require("./reminders/modify");
         modify(client, message, guild);
         break;
       case "remove":
-        const remove = require("./reminder/remove");
+        const remove = require("./reminders/remove");
         remove(client, message, guild);
         break;
       default:
