@@ -21,12 +21,17 @@ module.exports = async (client, message, guild) => {
 
     collected = await client.promptUser(
       message,
-      "When would you like me to remind you about that Commander? (DD/MM/YYYY HH:MM)"
+      "When would you like me to remind you about that Commander?"
     );
 
     if (!collected) return;
 
     newReminderDate = collected.first().content.toLowerCase();
+
+    isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
+    if (isValidDate) break;
+
+    newReminderDate = await client.parseReminderDate(newReminderDate);
 
     isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
   } while (!isValidDate);

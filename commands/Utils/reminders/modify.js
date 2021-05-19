@@ -1,6 +1,5 @@
 /*Modify an existing reminder*/
 module.exports = async (client, message, guild) => {
-  const moment = require("moment");
   const list = require("../reminders/list");
 
   let reminders = await client.getReminders(guild);
@@ -50,75 +49,20 @@ module.exports = async (client, message, guild) => {
     userResponse != "both"
   );
 
-  let isValidDate, newReminderDate, newReminderMessage;
-
   switch (userResponse) {
     case "date":
-      do {
-        if (newReminderDate)
-          message.channel.send("Invalid date entered Commander!");
-
-        collected = await client.promptUser(
-          message,
-          "What new date do you want for that reminder Commander? (DD/MM/YYYY HH:MM)"
-        );
-
-        if (!collected) return;
-
-        newReminderDate = collected.first().content.toLowerCase();
-
-        isValidDate = moment(
-          newReminderDate,
-          "DD/MM/YYYY HH:mm",
-          true
-        ).isValid();
-      } while (!isValidDate);
-      reminders[reminderIndex].date = newReminderDate;
+      const modifyDate = require("./modifyDate");
+      reminders[reminderIndex].date = await modifyDate(client, message);
       break;
-
     case "message":
-      collected = await client.promptUser(
-        message,
-        "What new message do you want for that reminder Commander?"
-      );
-
-      if (!collected) return;
-
-      newReminderMessage = collected.first().content.toLowerCase();
-      reminders[reminderIndex].message = newReminderMessage;
+      const modifyMessage = require("./modifyMessage");
+      reminders[reminderIndex].message = await modifyMessage(client, message);
       break;
-
     case "both":
-      do {
-        if (newReminderMessage)
-          message.channel.send("Invalid date entered Commander!");
-
-        collected = await client.promptUser(
-          message,
-          "What new date do you want for that reminder Commander? (DD/MM/YYYY HH:MM)"
-        );
-
-        if (!collected) return;
-
-        newReminderDate = collected.first().content.toLowerCase();
-
-        isValidDate = moment(
-          newReminderDate,
-          "DD/MM/YYYY HH:mm",
-          true
-        ).isValid();
-      } while (!isValidDate);
-
-      collected = await client.promptUser(
-        message,
-        "What new message do you want for that reminder Commander?"
-      );
-
-      if (!collected) return;
-
-      newReminderMessage = collected.first().content.toLowerCase();
-      reminders[reminderIndex].message = newReminderMessage;
-      reminders[reminderIndex].date = newReminderDate;
+      const modifyDateMessage = require("./modifyDateMessage");
+      let { newDate, newMessage } = await modifyDateMessage(client, message);
+      reminders[reminderIndex].date = newDate;
+      reminders[reminderIndex].message = newMessage;
       break;
   }
 
