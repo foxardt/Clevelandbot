@@ -10,7 +10,6 @@ const GuildSchema = mongoose.Schema({
   triggers: [{ trigger: String, reply: String }],
   reminders: [
     {
-      id: Number,
       userId: String,
       name: String,
       message: String,

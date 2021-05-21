@@ -1,6 +1,6 @@
 /*Parse a reminder date and returns date in format DD/MM/YYYY HH:MM*/
 module.exports = (client) => {
-  client.parseReminderDate = async (collectedDate) => {
+  client.parseDate = async (collectedDate) => {
     const moment = require("moment");
     let parsedDate;
     let parsedData = [];

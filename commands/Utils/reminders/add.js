@@ -31,7 +31,7 @@ module.exports = async (client, message, guild) => {
     isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
     if (isValidDate) break;
 
-    newReminderDate = await client.parseReminderDate(newReminderDate);
+    newReminderDate = await client.parseDate(newReminderDate);
 
     isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
   } while (!isValidDate);
@@ -58,15 +58,7 @@ module.exports = async (client, message, guild) => {
     );
   } while (reminderIndex > -1 || !reminderIndex);
 
-  let reminderId = Math.floor(Math.random() * 999999) + 1;
-  for (reminder of reminders) {
-    if (reminderId === reminder.id) {
-      reminderId = Math.floor(Math.random() * 999999) + 1;
-    }
-  }
-
   let newReminder = {
-    id: reminderId,
     userId: message.author.id,
     name: newReminderName,
     message: newReminderMessage,

@@ -18,7 +18,7 @@ module.exports = async (client, message) => {
     isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
     if (isValidDate) break;
 
-    newReminderDate = await client.parseReminderDate(newReminderDate);
+    newReminderDate = await client.parseDate(newReminderDate);
 
     isValidDate = moment(
       parsedReminderDate,
