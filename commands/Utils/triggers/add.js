@@ -18,7 +18,7 @@ module.exports = async (client, message, guild) => {
     newTriggerName = collected.first().content.toLowerCase();
 
     triggerIndex = triggers.findIndex(
-      (trigger) => trigger.trigger === triggerName
+      (trigger) => trigger.trigger === newTriggerName
     );
   } while (triggerIndex >= 0);
 
