@@ -20,6 +20,10 @@ module.exports = {
         " -list: Sends the list of all reminders \n" +
         " -modify : modifies the date/message/both of a reminder \n" +
         " -remove: Lets you remove a reminder \n" +
+        "-poll [create/list/close] :" +
+        " -create: creates a new poll with options and endind date" +
+        " -list: Sends the list of all active polls" +
+        " -close: closes a poll before the ending date and immediately send results" +
         "-**eval** (bot owner only): Lets you run JavaScript through discord through the bot"
     );
   },
