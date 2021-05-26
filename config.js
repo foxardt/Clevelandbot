@@ -8,5 +8,6 @@ module.exports = {
     memberLogs: { enabled: false, channelId: "" },
     triggers: [],
     reminders: [],
+    polls: [],
   },
 };

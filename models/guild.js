@@ -17,6 +17,16 @@ const GuildSchema = mongoose.Schema({
       channelId: String,
     },
   ],
+  polls: [
+    {
+      id: String,
+      authorId: String,
+      title: String,
+      options: [{ option: String, voteCount: Number }],
+      endDate: String,
+      channelId: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Guild", GuildSchema);

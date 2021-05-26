@@ -2,10 +2,7 @@
 module.exports = (client) => {
   client.promptUser = async (message, promptMessage) => {
     const collectorFilter = (response) => {
-      return (
-        response.author.id === client.user.id ||
-        response.author.id === message.author.id
-      );
+      return response.author.id === message.author.id;
     };
 
     const collector = await message.channel.createMessageCollector(

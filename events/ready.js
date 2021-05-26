@@ -2,14 +2,13 @@
 module.exports = async (client) => {
   const { prefix } = require("../config");
   client.user.setActivity(`${prefix}help`);
-  setInterval(() => {
+  await client.checkReminders();
+  await client.checkPolls();
+  setInterval(async () => {
     if (client.user.presence.activities[0] !== `${prefix}help`)
       client.user.setActivity(`${prefix}help`);
-  }, 1000 * 60);
-
-  await client.checkReminders();
-  setInterval(async () => {
     await client.checkReminders();
+    await client.checkPolls();
   }, 1000 * 60);
 
   let date = client.getCurrentDate();
