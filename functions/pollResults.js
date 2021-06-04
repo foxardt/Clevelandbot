@@ -1,4 +1,4 @@
-/*Returns the memberLogs setting from a database*/
+/*Returns the result from a poll*/
 module.exports = (client) => {
   client.pollResults = async (poll) => {
     let reactionCount = [];
