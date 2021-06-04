@@ -1,11 +1,11 @@
 /*Closes any poll that reached ending date*/
 module.exports = (client) => {
   client.checkPolls = async () => {
-    require("./getGuild")(client);
-    require("./updateGuild")(client);
-    require("./getPolls")(client);
-    require("./pollResults")(client);
-    const moment = require("moment");
+    require('./getGuild')(client);
+    require('./updateGuild')(client);
+    require('./getPolls')(client);
+    require('./pollResults')(client);
+    const moment = require('moment');
     const guildIdList = client.guilds.cache.map((guild) => guild.id);
 
     for (guildId of guildIdList) {
@@ -13,7 +13,7 @@ module.exports = (client) => {
       let polls = await client.getPolls(guild);
       if (!polls) return;
       for (let poll of polls) {
-        let currentTime = moment().format("DD/MM/YYYY HH:mm");
+        let currentTime = moment().format('DD/MM/YYYY HH:mm');
         const pollChannel = client.channels.cache.get(poll.channelId);
         const pollMessage = await pollChannel.messages.fetch(poll.id);
         const pollId = poll.id;
@@ -30,16 +30,16 @@ module.exports = (client) => {
           await client.updateGuild(guild, { polls: polls });
         } else {
           const numberEmojis = [
-            "1️⃣",
-            "2️⃣",
-            "3️⃣",
-            "4️⃣",
-            "5️⃣",
-            "6️⃣",
-            "7️⃣",
-            "8️⃣",
-            "9️⃣",
-            "🔟",
+            '1️⃣',
+            '2️⃣',
+            '3️⃣',
+            '4️⃣',
+            '5️⃣',
+            '6️⃣',
+            '7️⃣',
+            '8️⃣',
+            '9️⃣',
+            '🔟',
           ];
 
           const filter = (reaction, user) => {
@@ -53,8 +53,12 @@ module.exports = (client) => {
             dispose: true,
           });
 
-          collector.on("collect", async (collected) => {
+          collector.on('collect', async (collected) => {
             let collectedEmoji = collected.emoji.name;
+            let currentTime = moment().format('DD/MM/YYYY HH:mm');
+            if (party.endDate === currentTime || party.endDate < currentTime) {
+              return collector.stop();
+            }
             collectedEmojiIndex = numberEmojis.findIndex(
               (emoji) => emoji === collectedEmoji
             );
@@ -63,8 +67,12 @@ module.exports = (client) => {
             await client.updateGuild(guild, { polls: polls });
           });
 
-          collector.on("remove", async (collected) => {
+          collector.on('remove', async (collected) => {
             let collectedEmoji = collected.emoji.name;
+            let currentTime = moment().format('DD/MM/YYYY HH:mm');
+            if (party.endDate === currentTime || party.endDate < currentTime) {
+              return collector.stop();
+            }
             collectedEmojiIndex = numberEmojis.findIndex(
               (emoji) => emoji === collectedEmoji
             );

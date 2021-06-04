@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const GuildSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -27,6 +27,17 @@ const GuildSchema = mongoose.Schema({
       channelId: String,
     },
   ],
+  parties: [
+    {
+      id: String,
+      authorId: String,
+      title: String,
+      emote: String,
+      participants: [String],
+      endDate: String,
+      channelId: String,
+    },
+  ],
 });
 
-module.exports = mongoose.model("Guild", GuildSchema);
+module.exports = mongoose.model('Guild', GuildSchema);
