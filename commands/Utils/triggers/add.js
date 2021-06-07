@@ -10,12 +10,12 @@ module.exports = async (client, message, guild) => {
 
     collected = await client.promptUser(
       message,
-      "Please enter the trigger name Commander:"
+      'Please enter the trigger name Commander:'
     );
 
     if (!collected) return;
 
-    newTriggerName = collected.first().content.toLowerCase();
+    newTriggerName = collected.first().content;
 
     triggerIndex = triggers.findIndex(
       (trigger) => trigger.trigger === newTriggerName
@@ -24,12 +24,12 @@ module.exports = async (client, message, guild) => {
 
   collected = await client.promptUser(
     message,
-    "Please enter the trigger reply Commander:"
+    'Please enter the trigger reply Commander:'
   );
 
   if (!collected) return;
 
-  let newTriggerReply = collected.first().content.toLowerCase();
+  let newTriggerReply = collected.first().content;
 
   const newTriggers = [
     ...triggers,

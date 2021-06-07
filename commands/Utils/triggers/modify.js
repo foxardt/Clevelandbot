@@ -1,6 +1,6 @@
 /*Modify the reply of an existing trigger*/
 module.exports = async (client, message, guild) => {
-  const list = require("../triggers/list");
+  const list = require('../triggers/list');
 
   let triggers = await client.getTriggers(guild);
 
@@ -21,12 +21,12 @@ module.exports = async (client, message, guild) => {
 
     collected = await client.promptUser(
       message,
-      "Which one do you want me to update Commander?"
+      'Which one do you want me to update Commander?'
     );
 
     if (!collected) return;
 
-    triggerName = collected.first().content.toLowerCase();
+    triggerName = collected.first().content;
 
     triggerIndex = triggers.findIndex(({ trigger }) => trigger === triggerName);
   } while (triggerIndex < 0);
@@ -38,7 +38,7 @@ module.exports = async (client, message, guild) => {
 
   if (!collected) return;
 
-  let newTriggerReply = collected.first().content.toLowerCase();
+  let newTriggerReply = collected.first().content;
 
   triggers[triggerIndex].reply = newTriggerReply;
 
