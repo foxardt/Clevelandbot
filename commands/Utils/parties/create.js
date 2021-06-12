@@ -13,54 +13,28 @@ module.exports = async (client, message, guild) => {
 
   let newPartyTitle = collected.first().content.toLowerCase();
 
-  let isValidEmote, isGuildEmote, newPartyEmote;
+  let isValidOptions, newPartyOptions, newPartyOptionsParsed;
 
   do {
-    if (newPartyEmote)
-      message.channel.send('You did not enter a valid emote Commander!');
+    if (newPartyOptions)
+      message.channel.send('Not enough / Too many options entered Commander!');
 
     collected = await client.promptUser(
       message,
-      'What emote should members react with Commander?'
+      'What options should they have Commander? (min 1/max 10: option 1, option 2, etc)'
     );
-
-    let emoteregex = /<:.+:(\d+)>|<a:.+:(\d+)>/g;
-    let matchregex = /<a:.+?:\d+>|<:.+?:\d+>/g;
 
     if (!collected) return;
 
-    newPartyEmote = collected.first().content;
+    newPartyOptions = collected.first().content.toLowerCase();
 
-    const emotematch = newPartyEmote.match(matchregex);
+    newPartyOptionsParsed = newPartyOptions.split(', ');
 
-    if (!emotematch) {
-      isValidEmote = false;
-      continue;
-    }
-
-    if (emotematch.length > 1) {
-      isValidEmote = false;
-      continue;
-    }
-
-    let emoji = emoteregex.exec(emotematch);
-
-    if (!emoji) {
-      isValidEmote = false;
-      continue;
-    }
-
-    isGuildEmote = guild.emojis.cache.get(emoji[1]);
-
-    if (!isGuildEmote) {
-      isValidEmote = false;
-      continue;
-    }
-
-    newPartyEmote = emoji[1];
-
-    isValidEmote = true;
-  } while (!isValidEmote);
+    isValidOptions =
+      newPartyOptionsParsed.length <= 10 && newPartyOptionsParsed.length >= 1
+        ? true
+        : false;
+  } while (!isValidOptions);
 
   let isValidDate, newPartyDate;
 
@@ -105,10 +79,18 @@ module.exports = async (client, message, guild) => {
 
   newPartyChannelId = newPartyChannelId.id;
 
+  let newOptionsArray = [];
+  newPartyOptionsParsed.forEach((newOption) => {
+    newOptionsArray = [
+      ...newOptionsArray,
+      { option: newOption, participants: [] },
+    ];
+  });
+
   let newParty = {
     authorId: message.author.id,
     title: newPartyTitle,
-    emote: newPartyEmote,
+    options: newOptionsArray,
     endDate: newPartyDate,
     channelId: newPartyChannelId,
   };

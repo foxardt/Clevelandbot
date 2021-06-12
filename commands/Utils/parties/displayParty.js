@@ -4,21 +4,38 @@ module.exports = async (party, client, guild) => {
 
   const author = await guild.members.fetch(party.authorId);
   const channel = await client.channels.cache.get(party.channelId);
-  const partyEmoji = guild.emojis.cache.get(party.emote);
+  let optionsField = '';
+  const numberEmojis = [
+    '1️⃣',
+    '2️⃣',
+    '3️⃣',
+    '4️⃣',
+    '5️⃣',
+    '6️⃣',
+    '7️⃣',
+    '8️⃣',
+    '9️⃣',
+    '🔟',
+  ];
 
   const newPartyEmbed = new Discord.MessageEmbed()
     .setTitle(party.title)
-    .setDescription(
-      `React with ${partyEmoji.toString()} if you want to participate!`
-    )
     .setFooter(
       `Poll created by ${author.displayName} | Ends on ${party.endDate}`,
       author.user.avatarURL()
     );
 
+  for (let i = 0; i < party.options.length; i++) {
+    optionsField += `${numberEmojis[i]} ${party.options[i].option}\n`;
+  }
+
+  newPartyEmbed.setDescription(optionsField);
+
   let message = await channel.send(newPartyEmbed);
 
-  message.react(partyEmoji);
+  for (let i = 0; i < party.options.length; i++) {
+    message.react(numberEmojis[i]);
+  }
 
   return message.id;
 };

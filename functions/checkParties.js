@@ -29,11 +29,23 @@ module.exports = (client) => {
 
           await client.updateGuild(guild, { parties: parties });
         } else {
-          const partyEmoji = guild.emojis.cache.get(party.emote);
+          const numberEmojis = [
+            '1️⃣',
+            '2️⃣',
+            '3️⃣',
+            '4️⃣',
+            '5️⃣',
+            '6️⃣',
+            '7️⃣',
+            '8️⃣',
+            '9️⃣',
+            '🔟',
+          ];
 
           const filter = (reaction, user) => {
             return (
-              reaction.emoji.id === partyEmoji.id && user.id !== client.user.id
+              numberEmojis.includes(reaction.emoji.name) &&
+              user.id !== client.user.id
             );
           };
 
@@ -43,26 +55,39 @@ module.exports = (client) => {
 
           collector.on('collect', async (collected, user) => {
             const userId = user.id;
+            let collectedEmoji = collected.emoji.name;
             let currentTime = moment().format('DD/MM/YYYY HH:mm');
             if (party.endDate === currentTime || party.endDate < currentTime) {
               return collector.stop();
             }
-            if (party.participants.indexOf(userId)) {
-              party.participants = [...party.participants, userId];
-              parties[partyIndex] = party;
-              await client.updateGuild(guild, { parties: parties });
-            }
+            collectedEmojiIndex = numberEmojis.findIndex(
+              (emoji) => emoji === collectedEmoji
+            );
+            party.options[collectedEmojiIndex].participants = [
+              ...party.options[collectedEmojiIndex].participants,
+              userId,
+            ];
+            party[partyIndex] = party;
+            await client.updateGuild(guild, { parties: parties });
           });
 
           collector.on('remove', async (collected, user) => {
             const userId = user.id;
+            let collectedEmoji = collected.emoji.name;
             let currentTime = moment().format('DD/MM/YYYY HH:mm');
             if (party.endDate === currentTime || party.endDate < currentTime) {
               return collector.stop();
             }
-            const userIndex = party.participants.indexOf(userId);
-            party.participants.splice(userIndex, 1);
-            parties[partyIndex] = party;
+            const userIndex =
+              party.options[collectedEmojiIndex].participants.indexOf(userId);
+            collectedEmojiIndex = numberEmojis.findIndex(
+              (emoji) => emoji === collectedEmoji
+            );
+            party.options[collectedEmojiIndex].participants.splice(
+              userIndex,
+              1
+            );
+            party[partyIndex] = party;
             await client.updateGuild(guild, { parties: parties });
           });
         }

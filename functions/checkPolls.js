@@ -56,7 +56,7 @@ module.exports = (client) => {
           collector.on('collect', async (collected) => {
             let collectedEmoji = collected.emoji.name;
             let currentTime = moment().format('DD/MM/YYYY HH:mm');
-            if (party.endDate === currentTime || party.endDate < currentTime) {
+            if (poll.endDate === currentTime || poll.endDate < currentTime) {
               return collector.stop();
             }
             collectedEmojiIndex = numberEmojis.findIndex(
@@ -70,7 +70,7 @@ module.exports = (client) => {
           collector.on('remove', async (collected) => {
             let collectedEmoji = collected.emoji.name;
             let currentTime = moment().format('DD/MM/YYYY HH:mm');
-            if (party.endDate === currentTime || party.endDate < currentTime) {
+            if (poll.endDate === currentTime || poll.endDate < currentTime) {
               return collector.stop();
             }
             collectedEmojiIndex = numberEmojis.findIndex(
