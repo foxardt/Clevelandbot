@@ -1,12 +1,12 @@
 /*Creates a new Poll with a set duration*/
 module.exports = async (client, message, guild) => {
-  const moment = require("moment");
-  const displayPoll = require("./displayPoll");
+  const moment = require('moment');
+  const displayPoll = require('./displayPoll');
   let polls = await client.getPolls(guild);
 
   let collected = await client.promptUser(
     message,
-    "What shoudl i ask members Commander?"
+    'What shoudl i ask members Commander?'
   );
 
   if (!collected) return;
@@ -17,18 +17,18 @@ module.exports = async (client, message, guild) => {
 
   do {
     if (newPollOptions)
-      message.channel.send("Not enough / Too many options entered Commander!");
+      message.channel.send('Not enough / Too many options entered Commander!');
 
     collected = await client.promptUser(
       message,
-      "What options should they have Commander? (min 2/max 10: option 1, option 2, etc)"
+      'What options should they have Commander? (min 2/max 10: option 1, option 2, etc)'
     );
 
     if (!collected) return;
 
     newPollOptions = collected.first().content.toLowerCase();
 
-    newPollOptionsParsed = newPollOptions.split(", ");
+    newPollOptionsParsed = newPollOptions.split(', ');
 
     isValidOptions =
       newPollOptionsParsed.length <= 10 && newPollOptionsParsed.length > 1
@@ -39,31 +39,37 @@ module.exports = async (client, message, guild) => {
   let isValidDate, newPollDate;
 
   do {
-    if (newPollDate) message.channel.send("Invalid date entered Commander!");
+    if (newPollDate) message.channel.send('Invalid date entered Commander!');
 
     collected = await client.promptUser(
       message,
-      "When would you like me to end the poll Commander?"
+      'When would you like me to end the poll Commander?'
     );
 
     if (!collected) return;
 
-    newPollDate = collected.first().content.toLowerCase();
+    newPollDate = collected.first().content;
 
-    isValidDate = moment(newPollDate, "DD/MM/YYYY HH:mm", true).isValid();
-    if (isValidDate) break;
+    isValidDate = moment(newPollDate, 'DD/MM/YYYY HH:mm', true).isValid();
+
+    if (isValidDate) {
+      newPollDate = moment(newPollDate, 'DD/MM/YYYY HH:mm');
+      break;
+    }
 
     newPollDate = await client.parseDate(newPollDate);
 
-    isValidDate = moment(newPollDate, "DD/MM/YYYY HH:mm", true).isValid();
+    isValidDate = moment(newPollDate, 'DD/MM/YYYY HH:mm', true).isValid();
   } while (!isValidDate);
+
+  newPollDate = new Date(newPollDate);
 
   let isValidId, newPollChannelId;
 
   do {
     collected = await client.promptUser(
       message,
-      "In which channel should i set the poll Commander?"
+      'In which channel should i set the poll Commander?'
     );
 
     if (!collected) return;
@@ -74,7 +80,7 @@ module.exports = async (client, message, guild) => {
 
     if (isValidId) break;
 
-    message.channel.send("Invalid/No channel entered Commander!");
+    message.channel.send('Invalid/No channel entered Commander!');
   } while (!isValidId);
 
   newPollChannelId = newPollChannelId.id;

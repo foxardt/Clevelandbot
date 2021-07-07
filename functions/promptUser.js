@@ -11,11 +11,11 @@ module.exports = (client) => {
     const collector = await message.channel.createMessageCollector(
       collectorFilter,
       {
-        time: 60000,
+        time: 5 * 60 * 1000,
       }
     );
 
-    collector.on("end", (collected) => {
+    collector.on('end', (collected) => {
       message.channel.bulkDelete(collected);
     });
 
@@ -25,17 +25,16 @@ module.exports = (client) => {
 
     message.channel.send(promptMessage);
 
-    let replyMessage = await message.channel.awaitMessages(
-      awaitMessagesFilter,
-      {
+    let replyMessage = await message.channel
+      .awaitMessages(awaitMessagesFilter, {
         max: 1,
-        time: 60000,
-        errors: ["time"],
-      }
-    );
+        time: 5 * 60 * 1000,
+        errors: ['time'],
+      })
+      .catch('An error occured or command timed out due to no answer...');
 
-    if (replyMessage.first().content === "cancel") {
-      message.channel.send("Command has been cancelled commander!");
+    if (replyMessage.first().content === 'cancel') {
+      message.channel.send('Command has been cancelled commander!');
       collector.stop();
       return;
     }

@@ -13,13 +13,16 @@ module.exports = (client) => {
       let parties = await client.getParties(guild);
       if (!parties) return;
       for (let party of parties) {
-        let currentTime = moment().format('DD/MM/YYYY HH:mm');
+        let currentTime = moment();
         const partyChannel = client.channels.cache.get(party.channelId);
         const partyMessage = await partyChannel.messages.fetch(party.id);
         const partyId = party.id;
         const partyIndex = parties.findIndex((party) => party.id === partyId);
 
-        if (party.endDate === currentTime || party.endDate < currentTime) {
+        if (
+          moment(party.endDate) === currentTime ||
+          moment(party.endDate).isBefore(currentTime)
+        ) {
           if (partyIndex > -1) {
             parties.splice(partyIndex, 1);
           }
@@ -56,8 +59,11 @@ module.exports = (client) => {
           collector.on('collect', async (collected, user) => {
             const userId = user.id;
             let collectedEmoji = collected.emoji.name;
-            let currentTime = moment().format('DD/MM/YYYY HH:mm');
-            if (party.endDate === currentTime || party.endDate < currentTime) {
+            let currentTime = moment();
+            if (
+              moment(party.endDate) === currentTime ||
+              moment(party.endDate).isBefore(currentTime)
+            ) {
               return collector.stop();
             }
             collectedEmojiIndex = numberEmojis.findIndex(
@@ -74,8 +80,11 @@ module.exports = (client) => {
           collector.on('remove', async (collected, user) => {
             const userId = user.id;
             let collectedEmoji = collected.emoji.name;
-            let currentTime = moment().format('DD/MM/YYYY HH:mm');
-            if (party.endDate === currentTime || party.endDate < currentTime) {
+            let currentTime = moment();
+            if (
+              moment(party.endDate) === currentTime ||
+              moment(party.endDate).isBefore(currentTime)
+            ) {
               return collector.stop();
             }
             const userIndex =

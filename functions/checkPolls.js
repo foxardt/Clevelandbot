@@ -13,13 +13,16 @@ module.exports = (client) => {
       let polls = await client.getPolls(guild);
       if (!polls) return;
       for (let poll of polls) {
-        let currentTime = moment().format('DD/MM/YYYY HH:mm');
+        let currentTime = moment();
         const pollChannel = client.channels.cache.get(poll.channelId);
         const pollMessage = await pollChannel.messages.fetch(poll.id);
         const pollId = poll.id;
         const pollIndex = polls.findIndex((poll) => poll.id === pollId);
 
-        if (poll.endDate === currentTime || poll.endDate < currentTime) {
+        if (
+          moment(poll.endDate) === currentTime ||
+          moment(poll.endDate).isBefore(currentTime)
+        ) {
           if (pollIndex > -1) {
             polls.splice(pollIndex, 1);
           }
@@ -55,8 +58,11 @@ module.exports = (client) => {
 
           collector.on('collect', async (collected) => {
             let collectedEmoji = collected.emoji.name;
-            let currentTime = moment().format('DD/MM/YYYY HH:mm');
-            if (poll.endDate === currentTime || poll.endDate < currentTime) {
+            let currentTime = moment();
+            if (
+              moment(poll.endDate) === currentTime ||
+              moment(poll.endDate).isBefore(currentTime)
+            ) {
               return collector.stop();
             }
             collectedEmojiIndex = numberEmojis.findIndex(
@@ -69,8 +75,11 @@ module.exports = (client) => {
 
           collector.on('remove', async (collected) => {
             let collectedEmoji = collected.emoji.name;
-            let currentTime = moment().format('DD/MM/YYYY HH:mm');
-            if (poll.endDate === currentTime || poll.endDate < currentTime) {
+            let currentTime = moment();
+            if (
+              moment(poll.endDate) === currentTime ||
+              moment(poll.endDate).isBefore(currentTime)
+            ) {
               return collector.stop();
             }
             collectedEmojiIndex = numberEmojis.findIndex(

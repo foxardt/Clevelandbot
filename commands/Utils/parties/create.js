@@ -48,15 +48,21 @@ module.exports = async (client, message, guild) => {
 
     if (!collected) return;
 
-    newPartyDate = collected.first().content.toLowerCase();
+    newPartyDate = collected.first().content;
 
     isValidDate = moment(newPartyDate, 'DD/MM/YYYY HH:mm', true).isValid();
-    if (isValidDate) break;
+
+    if (isValidDate) {
+      newPartyDate = moment(newPartyDate, 'DD/MM/YYYY HH:mm');
+      break;
+    }
 
     newPartyDate = await client.parseDate(newPartyDate);
 
     isValidDate = moment(newPartyDate, 'DD/MM/YYYY HH:mm', true).isValid();
   } while (!isValidDate);
+
+  newPartyDate = new Date(newPartyDate);
 
   let isValidId, newPartyChannelId;
 
@@ -101,7 +107,7 @@ module.exports = async (client, message, guild) => {
 
   await client.updateGuild(guild, { parties: parties });
 
-  await client.checkParties();
+  //await client.checkParties();
 
   message.channel.send(
     `Poll party "${newPartyTitle}" successfully created Commander!`

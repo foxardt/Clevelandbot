@@ -1,12 +1,12 @@
 /*Add a new reminder to the server*/
 module.exports = async (client, message, guild) => {
-  const moment = require("moment");
+  const moment = require('moment');
   let reminders = await client.getReminders(guild);
   let userReminders = await client.getUserReminders(guild, message.author);
 
   let collected = await client.promptUser(
     message,
-    "What would you like to be reminded about Commander?"
+    'What would you like to be reminded about Commander?'
   );
 
   if (!collected) return;
@@ -17,24 +17,30 @@ module.exports = async (client, message, guild) => {
 
   do {
     if (newReminderDate)
-      message.channel.send("Invalid date entered Commander!");
+      message.channel.send('Invalid date entered Commander!');
 
     collected = await client.promptUser(
       message,
-      "When would you like me to remind you about that Commander?"
+      'When would you like me to remind you about that Commander?'
     );
 
     if (!collected) return;
 
-    newReminderDate = collected.first().content.toLowerCase();
+    newReminderDate = collected.first().content;
 
-    isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
-    if (isValidDate) break;
+    isValidDate = moment(newReminderDate, 'DD/MM/YYYY HH:mm', true).isValid();
+
+    if (isValidDate) {
+      newReminderDate = moment(newReminderDate, 'DD/MM/YYYY HH:mm');
+      break;
+    }
 
     newReminderDate = await client.parseDate(newReminderDate);
 
-    isValidDate = moment(newReminderDate, "DD/MM/YYYY HH:mm", true).isValid();
+    isValidDate = moment(newReminderDate, 'DD/MM/YYYY HH:mm', true).isValid();
   } while (!isValidDate);
+
+  newReminderDate = new Date(newReminderDate);
 
   let reminderIndex, newReminderName;
 
@@ -46,7 +52,7 @@ module.exports = async (client, message, guild) => {
 
     collected = await client.promptUser(
       message,
-      "What name do you want for that reminder Commander?"
+      'What name do you want for that reminder Commander?'
     );
 
     if (!collected) return;
