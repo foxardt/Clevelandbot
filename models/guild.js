@@ -6,7 +6,14 @@ const GuildSchema = mongoose.Schema({
   guildName: String,
   ownerID: String,
   ownerUsername: String,
-  memberLogs: { enabled: { type: Boolean, default: false }, channelId: String },
+  memberLogs: {
+    enabled: { type: Boolean, default: false },
+    channelIds: String,
+  },
+  pinCount: {
+    enabled: { type: Boolean, default: false },
+    channelIds: [String],
+  },
   triggers: [{ trigger: String, reply: String }],
   reminders: [
     {
