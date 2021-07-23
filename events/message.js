@@ -1,5 +1,5 @@
 /*Executes when a user sends a message | Won't execute if message is from a bot | <prefix><command> <args>*/
-const { prefix } = require("../config");
+const { prefix } = require('../config');
 
 module.exports = async (client, message) => {
   const guild = message.guild;
@@ -8,7 +8,7 @@ module.exports = async (client, message) => {
 
   if (!global.commandInUse) {
     for (trigger of triggerList) {
-      if (message.content.toLowerCase() === trigger.trigger) {
+      if (message.content === trigger.trigger) {
         return message.channel.send(trigger.reply);
       }
     }
@@ -24,7 +24,7 @@ module.exports = async (client, message) => {
   if (!cmd)
     return message.channel.send("I don't know how to do that Commander...");
 
-  if (cmd.guildOnly && message.channel.type === "dm")
+  if (cmd.guildOnly && message.channel.type === 'dm')
     return message.reply("We can't do this in DMs Commander...");
 
   if (cmd.args && !args.length) {
@@ -54,12 +54,12 @@ module.exports = async (client, message) => {
     global.commandInUse = false;
   } catch (error) {
     message.channel.send(
-      "An error happened while trying to do that Commander..."
+      'An error happened while trying to do that Commander...'
     );
     let currentDate = client.getCurrentDate();
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     args.shift();
-    let argsString = args.join(" ");
+    let argsString = args.join(' ');
     console.log(
       `${currentDate}: An error happened with the command '${command}' using arguments '${argsString}'`
     );
