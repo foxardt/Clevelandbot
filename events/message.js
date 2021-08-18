@@ -8,7 +8,7 @@ module.exports = async (client, message) => {
 
   if (!global.commandInUse) {
     for (trigger of triggerList) {
-      if (message.content === trigger.trigger) {
+      if (message.content.toLowerCase() === trigger.trigger.toLowerCase()) {
         return message.channel.send(trigger.reply);
       }
     }
