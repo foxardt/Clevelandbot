@@ -107,7 +107,7 @@ module.exports = async (client, message, guild) => {
 
   await client.updateGuild(guild, { parties: parties });
 
-  //await client.checkParties();
+  await client.checkParties();
 
   message.channel.send(
     `Poll party "${newPartyTitle}" successfully created Commander!`

@@ -8,7 +8,7 @@ const GuildSchema = mongoose.Schema({
   ownerUsername: String,
   memberLogs: {
     enabled: { type: Boolean, default: false },
-    channelIds: String,
+    channelId: String,
   },
   pinCount: {
     enabled: { type: Boolean, default: false },
